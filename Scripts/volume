@@ -5,7 +5,7 @@
 # / ___ \| |  | | | | | | | (_) / __/
 #/_/   \_\_|  |_| |_| |_|_|\___/_____|
 # My Github link: https://github.com/Armio2/Shellscripts
-# Requirements = dunst (a notification daemon) pactl and pulseaudio and awk
+# Requirements = dunst pactl and pulseaudio and awk
 
 # You can call this script like this:
 # $ ./volumeControl.sh up
