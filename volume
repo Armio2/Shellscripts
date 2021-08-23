@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
+#    _                   _      ____
+#   / \   _ __ _ __ ___ (_) ___|___ \
+#  / _ \ | '__| '_ ` _ \| |/ _ \ __) |
+# / ___ \| |  | | | | | | | (_) / __/
+#/_/   \_\_|  |_| |_| |_|_|\___/_____|
+# My Github link: https://github.com/Armio2/Shellscripts
+# Requirements = dunst (a notification daemon) pactl and pulseaudio and awk
 
 # You can call this script like this:
 # $ ./volumeControl.sh up
 # $ ./volumeControl.sh down
 # $ ./volumeControl.sh mute
 
-# Script modified from these wonderful people:
-# https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh
-# https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
-
 function get_volume {
-  pactl get-sink-volume 0 | cut -c 30-31
+  pactl get-sink-volume 0 | awk '{print $5}' | tr -d '%'
 }
 
 function is_mute {
@@ -19,14 +22,11 @@ function is_mute {
 
 function send_notification {
   if is_mute ; then
-    dunstify -r 2593 -u normal "      Mute"
+    dunstify -r 5775 -u normal "  Mute"
   else
     volume=$(get_volume)
-    # Make the bar with the special character ─ (it's not dash -)
-    # https://en.wikipedia.org/wiki/Box-drawing_character
-    bar=' '$(seq --separator="─" 0 "$((volume / 5))" | sed 's/[0-9]//g')
     # Send the notification
-    dunstify -r 2593 -u normal "    $bar"
+    dunstify -r 5775 -h int:value:$volume " Volume"
   fi
 }
 
