@@ -1,34 +1,27 @@
-#!/usr/bin/env bash
-#    _                   _      ____
-#   / \   _ __ _ __ ___ (_) ___|___ \
-#  / _ \ | '__| '_ ` _ \| |/ _ \ __) |
-# / ___ \| |  | | | | | | | (_) / __/
-#/_/   \_\_|  |_| |_| |_|_|\___/_____|
-# My Github link: https://github.com/Armio2/Shellscripts
-# Requirements = dunst (a notification daemon) ripgrep brightnessctl
+#!/bin/sh
 
 # You can call this script like this:
 # $ ./brightnessControl.sh up
 # $ ./brightnessControl.sh down
 
-function get_brightness {
+get_brightness() {
 	brightnessctl i | rg --trim % | cut -d ' ' -f4 | tr -d '()%'
 }
 
-function send_notification {
+send_notification() {
   brightness=$(get_brightness)
   # Send the notification
-  notify-send -h int:value:$brightness " Brightness" # The character in the string requires Nerd Fonts
+  notify-send -h int:value:"$brightness" " Brightness"
 }
 
 case $1 in
   up)
-    # increase the backlight by 2%
+    # increase the backlight by 3%
 	brightnessctl -d intel_backlight s +2%
     send_notification
     ;;
   down)
-    # decrease the backlight by 2%
+    # decrease the backlight by 3%
 	brightnessctl -d intel_backlight s 2%-
     send_notification
     ;;

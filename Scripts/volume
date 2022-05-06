@@ -1,32 +1,25 @@
-#!/usr/bin/env bash
-#    _                   _      ____
-#   / \   _ __ _ __ ___ (_) ___|___ \
-#  / _ \ | '__| '_ ` _ \| |/ _ \ __) |
-# / ___ \| |  | | | | | | | (_) / __/
-#/_/   \_\_|  |_| |_| |_|_|\___/_____|
-# My Github link: https://github.com/Armio2/Shellscripts
-# Requirements = dunst pactl and pulseaudio and awk
+#!/bin/sh
 
 # You can call this script like this:
 # $ ./volumeControl.sh up
 # $ ./volumeControl.sh down
 # $ ./volumeControl.sh mute
 
-function get_volume {
+get_volume() {
   pactl get-sink-volume 0 | awk '{print $5}' | tr -d '%'
 }
 
-function is_mute {
+is_mute() {
   pactl get-sink-mute 0 | cut -c 7- | grep yes > /dev/null
 }
 
-function send_notification {
+send_notification() {
   if is_mute ; then
     dunstify -r 5775 -u normal "  Mute"
   else
     volume=$(get_volume)
     # Send the notification
-    dunstify -r 5775 -h int:value:$volume " Volume"
+    dunstify -r 5775 -h int:value:"$volume" " Volume"
   fi
 }
 
